@@ -12,6 +12,7 @@ import {
     Typography,
     Divider,
     Avatar,
+    IconButton,
 } from '@mui/material'
 import {
     Dashboard as DashboardIcon,
@@ -21,10 +22,11 @@ import {
     Assignment as AssignmentIcon,
     BookOnline as BookIcon,
     Logout as LogoutIcon,
+    ChevronRight as ChevronRightIcon,
 } from '@mui/icons-material'
 import { useAuth } from '@/context/AuthContext'
 
-const drawerWidth = 280
+const drawerWidth = 380
 
 /**
  * Navigation menu items configuration
@@ -71,154 +73,153 @@ export default function Sidebar() {
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     boxSizing: 'border-box',
-                    bgcolor: '#F2F2F2', // Off-white/light gray sidebar background (#F2F2F2)
-                    borderRight: '1px solid #CCC1BE',
+                    bgcolor: '#F2F2F2', // Light grey sidebar background
+                    borderRight: '1px solid #E0E0E0',
                     display: 'flex',
                     flexDirection: 'column',
+                    position: 'fixed',
+                    height: '100vh',
+                    top: 0,
+                    left: 0,
                 },
             }}
         >
             {/* Logo/Header Section */}
             <Box
                 sx={{
-                    p: 3,
+                    p: 4,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 2,
-                    borderBottom: '1px solid #CCC1BE',
+                    gap: 2.5,
+                    borderBottom: '1px solid #E0E0E0',
                 }}
             >
                 <Box
                     sx={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 2,
-                        bgcolor: 'primary.main', // Blue-gray (#456086)
+                        width: 48,
+                        height: 48,
+                        borderRadius: 1.5,
+                        bgcolor: '#000000', // Black cube icon
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: 'white',
+                        color: '#ffffff',
                         fontWeight: 'bold',
-                        fontSize: '1.2rem',
+                        fontSize: '1.25rem',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                     }}
                 >
-                    TCM
+                    M
                 </Box>
                 <Box>
-                    <Typography variant="h6" fontWeight="bold" color="text.primary">
-                        TCM Clinic
+                    <Typography 
+                        variant="h6" 
+                        fontWeight="bold" 
+                        color="text.primary"
+                        sx={{ 
+                            fontSize: '1.3rem',
+                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                            letterSpacing: '-0.01em',
+                        }}
+                    >
+                       Management
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                        Management System
-                    </Typography>
+                   
                 </Box>
             </Box>
 
             {/* Navigation Menu */}
-            <List sx={{ px: 2, py: 2, flex: 1 }}>
+            <List sx={{ px: 3, py: 3, flex: 1 }}>
                 {menuItems.map((item) => {
                     const Icon = item.icon
                     const isActive = pathname === item.path
 
                     return (
-                        <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
+                        <ListItem key={item.path} disablePadding sx={{ mb: 1.5 }}>
                             <ListItemButton
                                 onClick={() => handleNavigation(item.path)}
                                 sx={{
-                                    borderRadius: 2,
-                                    bgcolor: isActive ? 'primary.main' : 'transparent',
-                                    color: isActive ? '#ffffff' : 'text.primary',
+                                    borderRadius: 2.5,
+                                    bgcolor: isActive ? '#EAEAEA' : 'transparent', // Light grey background for active item
+                                    color: 'text.primary',
                                     '&:hover': {
-                                        bgcolor: isActive ? 'primary.main' : '#CCC1BE', // Light beige/gray hover (#CCC1BE)
+                                        bgcolor: isActive ? '#EAEAEA' : 'rgba(0, 0, 0, 0.05)',
                                     },
-                                    py: 1.5,
+                                    py: 2,
+                                    px: 2,
+                                    position: 'relative',
                                 }}
                             >
                                 <ListItemIcon
                                     sx={{
-                                        minWidth: 40,
-                                        color: isActive ? '#ffffff' : 'text.secondary',
+                                        minWidth: 48,
+                                        color: isActive ? 'text.primary' : 'text.secondary',
                                     }}
                                 >
-                                    <Icon />
+                                    <Icon sx={{ fontSize: 26 }} />
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={item.text}
                                     primaryTypographyProps={{
-                                        fontWeight: isActive ? 600 : 400,
-                                        fontSize: '0.95rem',
+                                        fontWeight: isActive ? 600 : 500,
+                                        fontSize: '1.15rem',
+                                        color: 'text.primary',
+                                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                                        letterSpacing: '-0.01em',
                                     }}
                                 />
+                                {isActive && (
+                                    <IconButton
+                                        size="small"
+                                        sx={{
+                                            position: 'absolute',
+                                            right: 12,
+                                            bgcolor: '#ffffff',
+                                            color: 'text.primary',
+                                            width: 28,
+                                            height: 28,
+                                            '&:hover': {
+                                                bgcolor: '#f5f5f5',
+                                            },
+                                        }}
+                                    >
+                                        <ChevronRightIcon sx={{ fontSize: 20 }} />
+                                    </IconButton>
+                                )}
                             </ListItemButton>
                         </ListItem>
                     )
                 })}
             </List>
 
-            <Divider sx={{ my: 2 }} />
-
-            {/* User Section */}
-            {user && (
-                <Box sx={{ px: 2, pb: 2 }}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 2,
-                            p: 2,
-                            borderRadius: 2,
-                            bgcolor: '#F2F2F2', // Off-white/light gray (#F2F2F2)
-                        }}
-                    >
-                        <Avatar
-                            sx={{
-                                bgcolor: 'secondary.main', // Light orange/peach (#F8BD8D)
-                                width: 40,
-                                height: 40,
-                            }}
-                        >
-                            {user.firstName.charAt(0)}
-                            {user.lastName.charAt(0)}
-                        </Avatar>
-                        <Box sx={{ flex: 1, minWidth: 0 }}>
-                            <Typography
-                                variant="body2"
-                                fontWeight="600"
-                                color="text.primary"
-                                noWrap
-                            >
-                                {user.firstName} {user.lastName}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary" noWrap>
-                                {user.role === 'admin' ? 'Administrator' : 'Doctor'}
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Box>
-            )}
+            <Divider sx={{ my: 2, borderColor: '#E0E0E0' }} />
 
             {/* Logout Button - Only show if user is logged in */}
             {user && (
-                <Box sx={{ mt: 'auto', p: 2 }}>
+                <Box sx={{ mt: 'auto', p: 3 }}>
                     <ListItemButton
                         onClick={handleLogout}
                         sx={{
-                            borderRadius: 2,
-                            color: 'error.main',
+                            borderRadius: 2.5,
+                            color: 'text.primary',
                             '&:hover': {
-                                bgcolor: 'error.light',
-                                color: 'error.dark',
+                                bgcolor: 'rgba(0, 0, 0, 0.05)',
                             },
-                            py: 1.5,
+                            py: 2,
+                            px: 2,
                         }}
                     >
-                        <ListItemIcon sx={{ minWidth: 40, color: 'error.main' }}>
-                            <LogoutIcon />
+                        <ListItemIcon sx={{ minWidth: 48, color: 'text.secondary' }}>
+                            <LogoutIcon sx={{ fontSize: 26 }} />
                         </ListItemIcon>
                         <ListItemText
                             primary="Logout"
                             primaryTypographyProps={{
                                 fontWeight: 500,
+                                fontSize: '1.15rem',
+                                color: 'text.primary',
+                                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                                letterSpacing: '-0.01em',
                             }}
                         />
                     </ListItemButton>
