@@ -17,6 +17,7 @@ import {
     Notifications as NotificationsIcon,
     Person as PersonIcon,
     ArrowDropDown as ArrowDropDownIcon,
+    MedicalServices as MedicalServicesIcon,
 } from '@mui/icons-material'
 import { useAuth } from '@/context/AuthContext'
 import { useState } from 'react'
@@ -54,6 +55,8 @@ export default function TopBar() {
                 sx={{
                     justifyContent: 'space-between',
                     px: 3,
+                    minHeight: '120px !important',
+                    height: '120px',
                 }}
             >
                 {/* Search Bar */}
@@ -139,34 +142,31 @@ export default function TopBar() {
                         </Box>
                     )}
 
-                    {/* My Project Dropdown */}
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 0.5,
-                            cursor: 'pointer',
-                            px: 1.5,
-                            py: 0.5,
-                            borderRadius: 1,
-                            '&:hover': {
-                                bgcolor: '#F5F5F5',
-                            },
-                        }}
-                    >
-                        <ArrowDropDownIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
-                    </Box>
 
-                    {/* User Icon */}
+                    {/* Doctor Icon - Q version from local folder */}
                     <IconButton
                         sx={{
                             color: 'text.primary',
                             '&:hover': {
                                 bgcolor: '#F5F5F5',
                             },
+                            p: 0.5,
                         }}
                     >
-                        <PersonIcon />
+                        <Box
+                            component="img"
+                            src="/icons/doctor-icon1.png"
+                            alt="Doctor"
+                            sx={{
+                                width: 52,
+                                height: 52,
+                                objectFit: 'contain',
+                            }}
+                            onError={(e: any) => {
+                                // Fallback to MedicalServices icon if image fails to load
+                                e.target.style.display = 'none';
+                            }}
+                        />
                     </IconButton>
                 </Box>
 

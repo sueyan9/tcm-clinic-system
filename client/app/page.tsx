@@ -7,7 +7,11 @@ import {
     Box,
     CircularProgress,
     Grid,
+    IconButton,
 } from '@mui/material'
+import {
+    Close as CloseIcon,
+} from '@mui/icons-material'
 import {
     People as PeopleIcon,
     CalendarToday as CalendarIcon,
@@ -17,12 +21,14 @@ import {
 } from '@mui/icons-material'
 import { SvgIconComponent } from '@mui/icons-material'
 import api from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
 
 /**
  * Dashboard page - displays overview statistics
  * Shows counts for patients, appointments, cases, and ACC applications
  */
 export default function Dashboard() {
+    const { user } = useAuth()
     const [stats, setStats] = useState({
         patients: 0,
         appointments: 0,
@@ -31,6 +37,7 @@ export default function Dashboard() {
     })
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [showWelcomeBanner, setShowWelcomeBanner] = useState(true)
 
     useEffect(() => {
         fetchStats()
@@ -148,22 +155,185 @@ export default function Dashboard() {
                     ml: '-380px', // Negative margin to extend to sidebar edge
                     pl: '380px', // Padding to align content with TopBar
                     bgcolor: '#ffffff',
-                    p: 3,
+                    height: '120px', // Same height as TopBar
+                    display: 'flex',
+                    flexDirection: 'column', // Vertical layout
+                    justifyContent: 'center', // Center vertically
+                    px: 3,
                     borderRadius: 0,
                     boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                     mx: 0,
                 }}
             >
-                <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+                <Typography
+                    variant="h3"
+                    component="h3"
+                    fontWeight="bold"
+                    color="text.primary"
+                    sx={{
+                        fontSize: '2.3rem',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                        letterSpacing: '-0.01em',
+                    }}
+                >
                     Dashboard
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                {/*<Typography variant="h4" component="h3" fontWeight="bold" sx={{ mb: 0.5 }}>*/}
+                {/*    Dashboard*/}
+                {/*</Typography>*/}
+                <Typography variant="body1" color="text.secondary" sx={{ mt: 0 }}>
                     Hi, welcome to TCM Clinic Management Dashboard
                 </Typography>
             </Box>
 
             {/* Div 2: Main Content Area */}
             <Box sx={{ px: 3, py: 3, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                {/* Welcome Banner */}
+                {showWelcomeBanner && (
+                    <Paper
+                        sx={{
+                            mb: 3,
+                            borderRadius: 3,
+                            background: 'linear-gradient(135deg, rgba(243, 245, 243, 1) 0%, rgba(243, 245, 243, 0.9) 30%, rgba(200, 230, 240, 0.8) 100%)',
+                            backdropFilter: 'blur(8px)',
+                            position: 'relative',
+                            overflow: 'visible',
+                            p: 0,
+                            minHeight: '320px',
+                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.08)',
+                            border: '1px solid rgba(255, 255, 255, 0.3)',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                position: 'relative',
+                                minHeight: '320px',
+                            }}
+                        >
+                            {/* Left Side - Illustration (悬浮在五分之二处) */}
+                            <Box
+                                sx={{
+                                    flex: '0 0 350px',
+                                    height: '320px',
+                                    minHeight: '320px',
+                                    position: 'relative',
+                                    display: { xs: 'none', md: 'block' },
+                                    zIndex: 1,
+                                    overflow: 'visible',
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    src="/icons/welcome-illustration.png"
+                                    alt="Welcome"
+                                    sx={{
+                                        position: 'absolute',
+                                        width: 'auto',
+                                        height: '320px',
+                                        maxWidth: '350px',
+                                        objectFit: 'contain',
+                                        objectPosition: 'left center',
+                                        top: '50%', // 五分之二处 = 40%
+                                        transform: 'translateY(-50%)',
+                                        left: 20,
+                                        zIndex: 2,
+                                        display: 'block',
+                                        opacity: 0.9,
+                                        mixBlendMode: 'multiply',
+                                    }}
+                                    onError={(e: any) => {
+                                        // Show placeholder if image doesn't exist
+                                        const placeholder = e.target.nextElementSibling;
+                                        if (placeholder) {
+                                            placeholder.style.display = 'flex';
+                                        }
+                                        e.target.style.display = 'none';
+                                    }}
+                                />
+                                {/* Placeholder if image doesn't exist */}
+                                <Box
+                                    sx={{
+                                        position: 'absolute',
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'none', // Hidden by default, shown when image fails
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-start',
+                                        top: '40%',
+                                        transform: 'translateY(-30%)',
+                                        left: 10,
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.5 }}>
+                                        Illustration placeholder
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            {/* Right Side - Text Content */}
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                    p: 4,
+                                    pl: { md: 30 }, // More left padding to move text to the right
+                                    pr: { md: 6 }, // Right padding for spacing
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: { md: 'flex-start' }, // Align text to the right
+                                    position: 'relative',
+                                    zIndex: 0, // Lower z-index so image can appear above
+                                }}
+                            >
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{ mb: 1 }}
+                                >
+                                    {user ? `Hi, ${user.firstName} ${user.lastName}` : 'Hi, Guest'}
+                                </Typography>
+                                <Typography
+                                    variant="h4"
+                                    component="h2"
+                                    fontWeight="bold"
+                                    color="text.primary"
+                                    sx={{ mb: 2 }}
+                                >
+                                    Welcome to Management
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{ lineHeight: 1.6 }}
+                                >
+                                    Project activity will be updated here. Click on the name section to set your configuration.
+                                </Typography>
+                            </Box>
+
+                            {/* Close Button */}
+                            <IconButton
+                                onClick={() => setShowWelcomeBanner(false)}
+                                sx={{
+                                    position: 'absolute',
+                                    top: 12,
+                                    right: 12,
+                                    color: 'text.secondary',
+                                    bgcolor: 'rgba(255, 255, 255, 0.8)',
+                                    '&:hover': {
+                                        bgcolor: 'rgba(255, 255, 255, 1)',
+                                    },
+                                    zIndex: 2,
+                                }}
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </Box>
+                    </Paper>
+                )}
+
                 {/* Error Message */}
                 {error && (
                     <Paper

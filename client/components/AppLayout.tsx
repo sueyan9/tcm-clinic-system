@@ -45,9 +45,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 <Box
                     sx={{
                         flexGrow: 1,
-                        pt: '64px', // Height of AppBar/Toolbar
+                        pt: '120px', // Height of AppBar/Toolbar (updated to match TopBar height)
                         bgcolor: '#F2F2F2',
-                        minHeight: 'calc(100vh - 64px)',
+                        minHeight: 'calc(100vh - 120px)',
                         width: '100%',
                         ml: 0,
                         mr: 0,
