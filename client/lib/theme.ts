@@ -22,7 +22,7 @@ export const theme = createTheme({
             contrastText: '#000000',
         },
         background: {
-            default: '#F2F2F2', // Off-white/light gray - main background
+            default: '#FBF7F4', // Off-white/light gray - main background
             paper: '#FFFFFF', // White for cards and papers
         },
         text: {
@@ -30,12 +30,12 @@ export const theme = createTheme({
             secondary: '#456086', // Blue-gray for secondary text
         },
         grey: {
-            50: '#F2F2F2', // Off-white/light gray
-            100: '#F2F2F2', // Sidebar background
-            200: '#CCC1BE', // Light beige/gray - borders
-            300: '#CCC1BE',
-            400: '#CCC1BE',
-            500: '#CCC1BE', // Secondary text
+            50: '#FBF7F4', // Off-white/light gray
+            100: '#FBF7F4', // Sidebar background
+            200: '#F0E9E6', // Light beige/gray - borders
+            300: '#F0E9E6',
+            400: '#F0E9E6',
+            500: '#F0E9E6', // Secondary text
             600: '#99908d',
             700: '#456086', // Selected item background
             800: '#2d4059', // Dark text
